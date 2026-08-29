@@ -41,6 +41,7 @@ const messageCtxPatch: NavContextMenuPatchCallback = (children, { message }: { m
             id="vc-trans"
             label="Translate"
             icon={TranslateIcon}
+            leadingAccessory={{ type: "icon", icon: TranslateIcon }}
             action={async () => {
                 const trans = await translate("received", content);
                 handleTranslate(message.id, trans);
@@ -63,9 +64,9 @@ let tooltipTimeout: any;
 
 export default definePlugin({
     name: "Translate",
-    description: "Translate messages with Google Translate or DeepL",
+    description: "Translate messages with Google Translate, DeepL or Kagi.",
     tags: ["Chat", "Utility"],
-    authors: [Devs.Ven, Devs.AshtonMemer],
+    authors: [Devs.Ven, Devs.AshtonMemer, Devs.koish1],
     settings,
     contextMenus: {
         "message": messageCtxPatch

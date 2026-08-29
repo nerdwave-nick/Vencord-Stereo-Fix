@@ -17,13 +17,12 @@
 */
 
 import { isPluginEnabled } from "@api/PluginManager";
-import { Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import PermissionsViewerPlugin from "@plugins/permissionsViewer";
 import openRolesAndUsersPermissionsModal from "@plugins/permissionsViewer/components/RolesAndUsersPermissions";
 import { sortPermissionOverwrites } from "@plugins/permissionsViewer/utils";
 import { classes } from "@utils/misc";
-import { formatDuration } from "@utils/text";
+import { formatDurationVerbose } from "@utils/text";
 import type { Channel, RoleOrUserPermission } from "@vencord/discord-types";
 import { findByPropsLazy, findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import { EmojiStore, FluxDispatcher, GuildMemberStore, GuildStore, Parser, PermissionsBits, PermissionStore, SnowflakeUtils, Text, Timestamp, Tooltip, useEffect, useState } from "@webpack/common";
@@ -145,7 +144,7 @@ function HiddenChannelLockScreen({ channel }: { channel: Channel; }) {
             });
         }
 
-        if (Settings.plugins.PermissionsViewer.enabled) {
+        if (isPluginEnabled(PermissionsViewerPlugin.name)) {
             setPermissions(sortPermissionOverwrites(Object.values(permissionOverwrites).map(overwrite => ({
                 type: overwrite.type,
                 id: overwrite.id,
@@ -205,11 +204,11 @@ function HiddenChannelLockScreen({ channel }: { channel: Channel; }) {
                     <Text variant="text-md/normal">Last message pin: <Timestamp timestamp={new Date(lastPinTimestamp)} /></Text>
                 }
                 {(rateLimitPerUser ?? 0) > 0 &&
-                    <Text variant="text-md/normal">Slowmode: {formatDuration(rateLimitPerUser!, "seconds")}</Text>
+                    <Text variant="text-md/normal">Slowmode: {formatDurationVerbose(rateLimitPerUser!, "seconds")}</Text>
                 }
                 {(defaultThreadRateLimitPerUser ?? 0) > 0 &&
                     <Text variant="text-md/normal">
-                        Default thread slowmode: {formatDuration(defaultThreadRateLimitPerUser!, "seconds")}
+                        Default thread slowmode: {formatDurationVerbose(defaultThreadRateLimitPerUser!, "seconds")}
                     </Text>
                 }
                 {((channel.isGuildVoice() || channel.isGuildStageVoice()) && bitrate != null) &&
@@ -224,7 +223,7 @@ function HiddenChannelLockScreen({ channel }: { channel: Channel; }) {
                 {(defaultAutoArchiveDuration ?? 0) > 0 &&
                     <Text variant="text-md/normal">
                         Default inactivity duration before archiving {channel.isForumChannel() ? "posts" : "threads"}:
-                        {" " + formatDuration(defaultAutoArchiveDuration!, "minutes")}
+                        {" " + formatDurationVerbose(defaultAutoArchiveDuration!, "minutes")}
                     </Text>
                 }
                 {defaultForumLayout != null &&
