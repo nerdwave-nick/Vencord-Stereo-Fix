@@ -638,6 +638,10 @@ export const Devs = /* #__PURE__*/ Object.freeze({
         name: "prism",
         id: 390884143749136386n,
     },
+    Nerdwave: {
+        name: "Nerdwave",
+        id: 1039961982079619122n,
+    },
     creations: {
         name: "creations",
         id: 209830981060788225n
